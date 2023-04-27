@@ -2,9 +2,11 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.0.6'
     id 'io.spring.dependency-management' version '1.1.0'
+    id 'com.google.cloud.tools.jib' version '3.2.0'
+
 }
 
-group = 'com.gloan'
+group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
@@ -16,6 +18,27 @@ configurations {
 
 repositories {
     mavenCentral()
+}
+
+
+jib {
+    from {
+        image = 'openjdk:17-alpine'
+    }
+    to {
+        image = 'gloan'
+        tags = ['0.0.1']
+    }
+    container {
+        mainClass = 'com.example.GLoanApplication'
+        creationTime = 'USE_CURRENT_TIMESTAMP'
+        format = 'OCI'
+        volumes = ['/var/tmp']
+        entrypoint = ['java'
+                      , '-cp', '/app/resources:/app/classes:/app/libs/*'
+                      , 'com.example.GLoanApplication'
+        ]
+    }
 }
 
 dependencies {
