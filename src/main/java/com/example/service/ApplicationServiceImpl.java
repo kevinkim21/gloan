@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 public class ApplicationServiceImpl implements ApplicationService {
 
   private final ApplicationRepository applicationRepository;
-
-
   private final ModelMapper modelMapper;
 
   @Override
@@ -39,5 +37,31 @@ public class ApplicationServiceImpl implements ApplicationService {
     return modelMapper.map(application, Response.class);
   }
 
+  @Override
+  public Response update(Long applicationId, Request request) {
+    Application application = applicationRepository.findById(applicationId).orElseThrow(() -> {
+      throw new BaseException(ResultType.SYSTEM_ERROR);
+    });
+
+    application.setName(request.getName());
+    application.setCellPhone(request.getCellPhone());
+    application.setEmail(request.getEmail());
+    application.setHopeAmount(request.getHopeAmount());
+
+    applicationRepository.save(application);
+
+    return modelMapper.map(application, Response.class);
+  }
+
+  @Override
+  public void delete(Long applicationId) {
+    Application application = applicationRepository.findById(applicationId).orElseThrow(() -> {
+      throw new BaseException(ResultType.SYSTEM_ERROR);
+    });
+
+    application.setIsDeleted(true);
+
+    applicationRepository.save(application);
+  }
 
 }

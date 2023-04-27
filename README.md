@@ -21,3 +21,6 @@
 ### k8s command
 * `kubectl get svc`
 * `kubectl get pods`
+
+### ref
+[ref](https://github.com/sapzape/fastcampus-loan)
