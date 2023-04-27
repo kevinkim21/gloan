@@ -1,6 +1,6 @@
-package com.fastcampus.loan.repository;
+package com.example.repository;
 
-import com.fastcampus.loan.domain.Counsel;
+import com.example.domain.Counsel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.fastcampus.loan.dto;
+package com.example.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

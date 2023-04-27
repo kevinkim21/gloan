@@ -1,7 +1,7 @@
-package com.fastcampus.loan.controller;
+package com.example.controller;
 
-import com.fastcampus.loan.dto.ResponseDTO;
-import com.fastcampus.loan.dto.ResultObject;
+import com.example.dto.ResponseDTO;
+import com.example.dto.ResultObject;
 
 public abstract class AbstractController {
 
