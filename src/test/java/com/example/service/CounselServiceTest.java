@@ -7,7 +7,11 @@ import static org.mockito.Mockito.when;
 import com.example.domain.Counsel;
 import com.example.dto.CounselDTO.Request;
 import com.example.dto.CounselDTO.Response;
+import com.example.exception.BaseException;
+import com.example.exception.ResultType;
 import com.example.repository.CounselRepository;
+import java.util.Optional;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -57,4 +61,29 @@ class CounselServiceTest {
 
     assertThat(actual.getName()).isSameAs(entity.getName());
   }
+
+  @Test
+  void Should_ReturnResponseOfExistCounselEntity_When_RequestExistCounselId() {
+    Long findId = 1L;
+
+    Counsel entity = Counsel.builder()
+        .counselId(1L)
+        .build();
+
+    when(counselRepository.findById(findId)).thenReturn(Optional.ofNullable(entity));
+
+    Response actual = counselService.get(1L);
+
+    assertThat(actual.getCounselId()).isSameAs(findId);
+  }
+
+  @Test
+  void Should_ThrowException_When_RequestNotExistCounselId() {
+    Long findId = 2L;
+
+    when(counselRepository.findById(findId)).thenThrow(new BaseException(ResultType.SYSTEM_ERROR));
+
+    Assertions.assertThrows(BaseException.class, () -> counselService.get(2L));
+  }
+
 }

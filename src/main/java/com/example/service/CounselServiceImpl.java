@@ -3,6 +3,8 @@ package com.example.service;
 import com.example.domain.Counsel;
 import com.example.dto.CounselDTO.Request;
 import com.example.dto.CounselDTO.Response;
+import com.example.exception.BaseException;
+import com.example.exception.ResultType;
 import com.example.repository.CounselRepository;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
@@ -25,5 +27,14 @@ public class CounselServiceImpl implements CounselService {
     Counsel created = counselRepository.save(counsel);
 
     return modelMapper.map(created, Response.class);
+  }
+
+  @Override
+  public Response get(Long counselId) {
+    Counsel counsel = counselRepository.findById(counselId).orElseThrow(() -> {
+      throw new BaseException(ResultType.SYSTEM_ERROR);
+    });
+
+    return modelMapper.map(counsel, Response.class);
   }
 }
